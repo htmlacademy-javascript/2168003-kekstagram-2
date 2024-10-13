@@ -18,3 +18,7 @@ function parseNumbers (string) {
   const onlyNumbers = string.replaceAll(/[^0-9]/g, '');
   return onlyNumbers.length === 0 ? NaN : Number(onlyNumbers);
 }
+
+isShorterThan('dfssdf', 50)
+isPalindrome('топот')
+parseNumbers('sd2245sdfcxbvxv12.512')
