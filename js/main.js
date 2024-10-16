@@ -105,7 +105,7 @@ const getRandomDescription = () => {
   Object.keys(DUMMY_DESCRIPTIONS).forEach((partName) => {
     const getRandomHashtag = () => getRandomArrayElement(DUMMY_DESCRIPTIONS[partName]);
 
-    let randomPart, amountOfHashtags;
+    let randomPart = '', amountOfHashtags;
     switch (partName) {
       case 'hashtags':
         amountOfHashtags = getRandomPositiveIntFromRange(3, 9);
