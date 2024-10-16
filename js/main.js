@@ -105,7 +105,7 @@ const getRandomDescription = () => {
   Object.keys(DUMMY_DESCRIPTIONS).forEach((partName) => {
     const getRandomHashtag = () => getRandomArrayElement(DUMMY_DESCRIPTIONS[partName]);
 
-    let randomPart = '', amountOfHashtags;
+    let randomPart, amountOfHashtags;
     switch (partName) {
       case 'hashtags':
         amountOfHashtags = getRandomPositiveIntFromRange(3, 9);
@@ -116,7 +116,8 @@ const getRandomDescription = () => {
         break;
     }
 
-    description += randomPart + ' ';
+    description += randomPart;
+    description += ' ';
   });
 
   description = description[0].toUpperCase() + description.slice(1);
