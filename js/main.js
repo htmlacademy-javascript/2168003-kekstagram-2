@@ -103,9 +103,7 @@ const getRandomDescription = () => {
   let description = '';
 
   Object.keys(DUMMY_DESCRIPTIONS).forEach((partName) => {
-    const getRandomHashtag = () => {
-      return getRandomArrayElement(DUMMY_DESCRIPTIONS[partName]);
-    };
+    const getRandomHashtag = () => getRandomArrayElement(DUMMY_DESCRIPTIONS[partName]);
 
     let randomPart, amountOfHashtags;
     switch (partName) {
@@ -119,11 +117,11 @@ const getRandomDescription = () => {
     }
 
     description += randomPart + ' ';
-  })
+  });
 
   description = description[0].toUpperCase() + description.slice(1);
   return description.trimEnd();
-}
+};
 
 const getPostId = generateUniqueId();
 const getCommentId = generateUniqueId();
@@ -140,8 +138,8 @@ function getPost () {
       avatar: `img/avatar-${avatarId}.svg`,
       message: message,
       name: name
-    }
-  }
+    };
+  };
 
   const id = getPostId(),
     url = `photos/${id}.jpg`,
@@ -156,7 +154,7 @@ function getPost () {
     description: description,
     likes: likes,
     comments: comments
-  }
+  };
 
 }
 
