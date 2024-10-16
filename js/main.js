@@ -98,16 +98,19 @@ function getRandomArrayElement (array) {
 
 //#region Generational functions
 
+
 const getRandomDescription = () => {
-  let description = ``;
+  let description = '';
+
   Object.keys(DUMMY_DESCRIPTIONS).forEach((partName) => {
-    let randomPart;
+    const getRandomHashtag = () => {
+      return getRandomArrayElement(DUMMY_DESCRIPTIONS[partName]);
+    };
+
+    let randomPart, amountOfHashtags;
     switch (partName) {
       case 'hashtags':
-        const amountOfHashtags = getRandomPositiveIntFromRange(3, 9);
-        const getRandomHashtag = () => {
-          return getRandomArrayElement(DUMMY_DESCRIPTIONS[partName]);
-        };
+        amountOfHashtags = getRandomPositiveIntFromRange(3, 9);
         randomPart = Array.from({length: amountOfHashtags}, getRandomHashtag).join(' ');
         break;
       default:
@@ -130,7 +133,7 @@ function getPost () {
     const commentId = getCommentId(),
       avatarId = getRandomPositiveIntFromRange(1, 6),
       message = getRandomArrayElement(DUMMY_COMMENTS),
-      name = `${getRandomArrayElement(DUMMY_NAMES)} ${getRandomArrayElement(DUMMY_SURNAMES)}`
+      name = `${getRandomArrayElement(DUMMY_NAMES)} ${getRandomArrayElement(DUMMY_SURNAMES)}`;
 
     return {
       id: commentId,
@@ -145,7 +148,7 @@ function getPost () {
     description = getRandomDescription(),
     likes = getRandomPositiveIntFromRange(15, 200),
     amountOfComments = getRandomPositiveIntFromRange(0, 30),
-    comments = Array.from({length: amountOfComments}, getRandomComment)
+    comments = Array.from({length: amountOfComments}, getRandomComment);
 
   return {
     id: id,
