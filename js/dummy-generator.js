@@ -1,5 +1,5 @@
-import { DUMMY_DESCRIPTIONS, DUMMY_COMMENTS, DUMMY_NAMES, DUMMY_SURNAMES } from "./settings";
-import { generateUniqueId, getRandomArrayElement, getRandomPositiveIntFromRange } from "./util";
+import { DUMMY_DESCRIPTIONS, DUMMY_COMMENTS, DUMMY_NAMES, DUMMY_SURNAMES } from './settings';
+import { generateUniqueId, getRandomArrayElement, getRandomPositiveIntFromRange } from './util';
 
 const getRandomDescription = () => {
   let description = '';
@@ -61,6 +61,4 @@ function getRandomPost () {
 
 }
 
-export const generateDummyPosts = (amount) => {
-  return Array.from({length: amount}, getRandomPost);
-}
+export const generateDummyPosts = (amount) => Array.from({length: amount}, getRandomPost);
