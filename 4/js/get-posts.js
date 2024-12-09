@@ -5,7 +5,7 @@ const getRandomDescription = () => {
   let description = '';
 
   Object.keys(DUMMY_DESCRIPTIONS).forEach((partName) => {
-    const randomPart = DUMMY_DESCRIPTIONS[partName][Math.floor(Math.random() * DUMMY_DESCRIPTIONS[partName].length)];
+    const randomPart = getRandomArrayElement(DUMMY_DESCRIPTIONS[partName]);
     description += `${randomPart} `;
   });
 
