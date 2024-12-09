@@ -1,25 +1,12 @@
-import { DUMMY_DESCRIPTIONS, DUMMY_COMMENTS, DUMMY_NAMES, DUMMY_SURNAMES } from './settings';
-import { generateUniqueId, getRandomArrayElement, getRandomPositiveIntFromRange } from './util';
+import { DUMMY_DESCRIPTIONS, DUMMY_COMMENTS, DUMMY_NAMES, DUMMY_SURNAMES } from './settings.js';
+import { generateUniqueId, getRandomArrayElement, getRandomPositiveIntFromRange } from './util.js';
 
 const getRandomDescription = () => {
   let description = '';
 
   Object.keys(DUMMY_DESCRIPTIONS).forEach((partName) => {
-    const getRandomHashtag = () => getRandomArrayElement(DUMMY_DESCRIPTIONS[partName]);
-
-    let randomPart, amountOfHashtags;
-    switch (partName) {
-      case 'hashtags':
-        amountOfHashtags = getRandomPositiveIntFromRange(3, 9);
-        randomPart = Array.from({length: amountOfHashtags}, getRandomHashtag).join(' ');
-        break;
-      default:
-        randomPart = DUMMY_DESCRIPTIONS[partName][Math.floor(Math.random() * DUMMY_DESCRIPTIONS[partName].length)];
-        break;
-    }
-
-    description += randomPart;
-    description += ' ';
+    const randomPart = DUMMY_DESCRIPTIONS[partName][Math.floor(Math.random() * DUMMY_DESCRIPTIONS[partName].length)];
+    description += `${randomPart} `;
   });
 
   description = description[0].toUpperCase() + description.slice(1);
@@ -61,4 +48,4 @@ function getRandomPost () {
 
 }
 
-export const generateDummyPosts = (amount) => Array.from({length: amount}, getRandomPost);
+export const getPosts = (amount) => Array.from({length: amount}, getRandomPost);

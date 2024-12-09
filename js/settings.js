@@ -28,19 +28,6 @@ const DUMMY_DESCRIPTIONS = {
   ],
   when: [
     'утром', 'днём', 'вечером', 'ночью', 'на рассвете', 'на закате', 'при лунном свете', 'во время дождя', 'при тумане'
-  ],
-  hashtags: [
-    '#nature', '#photography', '#travel', '#art', '#beautiful', '#instagood', '#photooftheday', '#love', '#fashion',
-    '#summer', '#sunset', '#naturelovers', '#landscape', '#adventure', '#happy', '#fun', '#smile', '#beach', '#friends',
-    '#food', '#fitness', '#style', '#motivation', '#beauty', '#design', '#inspiration', '#music', '#life', '#workout',
-    '#health', '#mindfulness', '#urban', '#city', '#mountains', '#sky', '#sea', '#photo', '#picoftheday', '#family',
-    '#creative', '#quotes', '#flowers', '#sun', '#dog', '#cat', '#animals', '#selfie', '#lifestyle', '#happiness',
-    '#goodvibes', '#travelgram', '#explore', '#photographer', '#naturephotography', '#loveit', '#instamood', '#fitnessmotivation',
-    '#wanderlust', '#skylovers', '#instatravel', '#architecture', '#minimal', '#night', '#party', '#weekend', '#relax',
-    '#hiking', '#camping', '#wildlife', '#streetphotography', '#retro', '#memories', '#blackandwhite', '#ocean', '#water',
-    '#cool', '#igers', '#follow', '#instadaily', '#repost', '#daily', '#best', '#artwork', '#dream', '#mindset', '#positivevibes',
-    '#weekendvibes', '#winter', '#snow', '#coffee', '#tea', '#reading', '#writing', '#film', '#cinema', '#portrait',
-    '#moments', '#colorful', '#calm', '#exploremore'
   ]
 };
 
