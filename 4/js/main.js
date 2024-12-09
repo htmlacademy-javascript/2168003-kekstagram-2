@@ -1,4 +1,4 @@
-import { generateDummyPosts } from './dummy-generator';
-import { AMOUNT_OF_POSTS } from './settings';
+import { getPosts } from './get-posts.js';
+import { AMOUNT_OF_POSTS } from './settings.js';
 
-generateDummyPosts(AMOUNT_OF_POSTS);
+getPosts(AMOUNT_OF_POSTS);
