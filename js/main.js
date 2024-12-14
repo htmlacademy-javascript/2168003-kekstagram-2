@@ -1,4 +1,4 @@
-import { getPosts } from './get-posts.js';
+import { displayPosts } from './display-posts.js';
 import { AMOUNT_OF_POSTS } from './settings.js';
 
-getPosts(AMOUNT_OF_POSTS);
+displayPosts(AMOUNT_OF_POSTS);
