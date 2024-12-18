@@ -1,5 +1,5 @@
-import { ALLOWED_EXTENSIONS } from './settings';
-import { createCommentTemplate } from './util';
+import { ALLOWED_EXTENSIONS } from './settings.js';
+import { createCommentTemplate } from './util.js';
 
 export const lightroom = (posts) => {
   const bigPictureElement = document.querySelector('.big-picture');
