@@ -31,11 +31,20 @@ const DUMMY_DESCRIPTIONS = {
   ]
 };
 
+const ALLOWED_EXTENSIONS = [
+  'webp',
+  'jpeg',
+  'jpg',
+  'png',
+  'avif'
+];
+
 
 export {
   AMOUNT_OF_POSTS,
   DUMMY_COMMENTS,
   DUMMY_NAMES,
   DUMMY_SURNAMES,
-  DUMMY_DESCRIPTIONS
+  DUMMY_DESCRIPTIONS,
+  ALLOWED_EXTENSIONS
 };
