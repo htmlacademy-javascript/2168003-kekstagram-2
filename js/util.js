@@ -7,19 +7,6 @@ export function generateUniqueId () {
   };
 }
 
-export function counter (start, end, step) {
-  let current = start;
-
-  return function () {
-    if (end - current > step) {
-      current += step;
-    } else {
-      current = end;
-    }
-    return current;
-  };
-}
-
 export function getRandomPositiveIntFromRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
