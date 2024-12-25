@@ -77,6 +77,12 @@ export const lightroom = (posts) => {
       newAmount = oldAmount + AMOUNT_OF_COMMENTS_PER_LOAD;
     }
 
+    if (newAmount === comments.length) {
+      loadMoreCommentsButton.classList.add('hidden');
+    } else {
+      loadMoreCommentsButton.classList.remove('hidden');
+    }
+
     const commentsListToShow = comments.slice(0, newAmount);
     renderComments(commentsListToShow);
   }
@@ -143,7 +149,7 @@ export const lightroom = (posts) => {
       const postData = getPostByImageSource(pictureElement.src);
 
       setBigPictureData(postData);
-      renderComments(postData.comments.slice(0, AMOUNT_OF_COMMENTS_PER_LOAD));
+      loadMoreComments();
 
       const closeButton = bigPictureElement.querySelector('.big-picture__cancel');
       closeButton.addEventListener('click', onModalCloseButtonClick);
