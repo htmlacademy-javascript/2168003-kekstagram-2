@@ -22,6 +22,7 @@ export const validateUploadForm = () => {
     closeOverlayButton.removeEventListener('click', onCloseButtonClick);
     hashtagsField.removeEventListener('input', onTextFieldChange);
     descriptionField.removeEventListener('input', onTextFieldChange);
+    uploadInput.removeEventListener('submit', onFormSubmit);
   }
 
   function clearFields() {
@@ -55,10 +56,17 @@ export const validateUploadForm = () => {
     }
   }
 
+  function onFormSubmit(evt) {
+    const isFormValid = pristine.validate();
+
+    if (!isFormValid) {
+      evt.preventDefault();
+    }
+  }
+
   uploadInput.addEventListener('change', () => {
     if (uploadInput.files.length > 0) {
       overlayModal.classList.remove('hidden');
-
       bodyElement.classList.add('modal-open');
 
       closeOverlayButton.addEventListener('click', onCloseButtonClick);
@@ -66,6 +74,8 @@ export const validateUploadForm = () => {
 
       hashtagsField.addEventListener('input', onTextFieldChange);
       descriptionField.addEventListener('input', onTextFieldChange);
+
+      uploadInput.addEventListener('submit', onFormSubmit);
     }
   });
 
