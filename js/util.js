@@ -14,3 +14,22 @@ export function getRandomPositiveIntFromRange(min, max) {
 export function getRandomArrayElement (array) {
   return array[Math.floor(Math.random() * array.length)];
 }
+
+export function arrayHasDuplicates (array) {
+  const metElements = {};
+
+  for (let i = 0; i < array.length; i++) {
+    if (metElements[array[i]]) {
+      return true;
+    } else {
+      metElements[array[i]] = true;
+    }
+  }
+
+  return false;
+}
+
+export function removeExceedingSpaces (string) {
+  const regex = /\s{2,}/g;
+  return string.trim().replaceAll(regex, ' ');
+}
