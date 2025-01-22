@@ -40,6 +40,44 @@ const ALLOWED_EXTENSIONS = [
 ];
 
 const AMOUNT_OF_COMMENTS_PER_LOAD = 5;
+const SCALE_STEP = 25, SCALE_MAX = 100, SCALE_MIN = 25;
+const FILTERS = {
+  'chrome': {
+    name: 'grayscale',
+    min: 0,
+    max: 1,
+    step: 0.1
+  },
+  'sepia': {
+    name: 'sepia',
+    min: 0,
+    max: 1,
+    step: 0.1
+  },
+  'marvin': {
+    name: 'invert',
+    min: 0,
+    max: 100,
+    step: 1,
+    symbol: '%'
+  },
+  'phobos': {
+    name: 'blur',
+    min: 0,
+    max: 3,
+    step: 0.1,
+    symbol: 'px'
+  },
+  'heat': {
+    name: 'brightness',
+    min: 1,
+    max: 3,
+    step: 0.1
+  },
+  'none': {
+    name: 'none'
+  }
+};
 
 
 export {
@@ -49,5 +87,9 @@ export {
   DUMMY_SURNAMES,
   DUMMY_DESCRIPTIONS,
   ALLOWED_EXTENSIONS,
-  AMOUNT_OF_COMMENTS_PER_LOAD
+  AMOUNT_OF_COMMENTS_PER_LOAD,
+  SCALE_STEP,
+  SCALE_MAX,
+  SCALE_MIN,
+  FILTERS
 };

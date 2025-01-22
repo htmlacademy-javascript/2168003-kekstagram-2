@@ -1,13 +1,25 @@
+import { FILTERS, SCALE_MAX, SCALE_MIN, SCALE_STEP } from './settings.js';
 import { arrayHasDuplicates, removeExceedingSpaces } from './util.js';
 
 const uploadInput = document.querySelector('.img-upload__input');
 const overlayModal = document.querySelector('.img-upload__overlay');
 const closeOverlayButton = overlayModal.querySelector('.img-upload__cancel');
 const bodyElement = document.querySelector('body');
+
 const imageForm = document.querySelector('.img-upload__form');
 const hashtagsField = imageForm.querySelector('.text__hashtags');
 const descriptionField = imageForm.querySelector('.text__description');
 const sendButton = imageForm.querySelector('.img-upload__submit');
+
+const smallerButton = document.querySelector('.scale__control--smaller');
+const biggerButton = document.querySelector('.scale__control--bigger');
+const scaleInput = document.querySelector('.scale__control--value');
+const imageElement = document.querySelector('.img-upload__preview img');
+const filterContainer = document.querySelector('.img-upload__effect-level');
+const filters = document.querySelectorAll('.effects__radio');
+const filterValueElement = document.querySelector('.effect-level__value');
+const sliderElement = document.querySelector('.effect-level__slider');
+
 
 const pristine = new Pristine(imageForm, {
   classTo: 'img-upload__field-wrapper',
@@ -17,18 +29,44 @@ const pristine = new Pristine(imageForm, {
 }, false);
 
 export const validateUploadForm = () => {
+  filterContainer.classList.add('hidden');
+  noUiSlider.create(sliderElement, {
+    step: 1,
+    range: {
+      min: 0,
+      max: 100
+    },
+    start: 100
+  });
   function removeListeners() {
     document.removeEventListener('keydown', onEscButtonPress);
     closeOverlayButton.removeEventListener('click', onCloseButtonClick);
     hashtagsField.removeEventListener('input', onTextFieldChange);
     descriptionField.removeEventListener('input', onTextFieldChange);
     uploadInput.removeEventListener('submit', onFormSubmit);
+    smallerButton.removeEventListener('click', onSmallerButtonClick);
+    biggerButton.removeEventListener('click', onBiggerButtonClick);
+
+    for (let i = 0; i < filters.length; i++) {
+      filters[i].removeEventListener('click', onFilterClick);
+    }
+    sliderElement.noUiSlider.disable();
   }
 
   function clearFields() {
     uploadInput.value = null;
     hashtagsField.value = null;
     descriptionField.value = null;
+    filterContainer.classList.add('hidden');
+    setScaleToValue(SCALE_MAX);
+    imageElement.style.filter = null;
+    for (let i = 0; i < filters.length; i++) {
+      if (filters[i].value === 'none') {
+        filters[i].checked = true;
+      } else {
+        filters[i].checked = false;
+      }
+    }
   }
 
   function hideModal() {
@@ -64,6 +102,68 @@ export const validateUploadForm = () => {
     }
   }
 
+  function onSmallerButtonClick() {
+    let currentValue = parseInt(scaleInput.value, 10);
+    currentValue -= SCALE_STEP;
+    if (currentValue < SCALE_MIN) {
+      currentValue = SCALE_MIN;
+    }
+    setScaleToValue(currentValue);
+  }
+
+  function onBiggerButtonClick() {
+    let currentValue = parseInt(scaleInput.value, 10);
+    currentValue += SCALE_STEP;
+    if (currentValue > SCALE_MAX) {
+      currentValue = SCALE_MAX;
+    }
+    setScaleToValue(currentValue);
+  }
+
+  function setScaleToValue(value) {
+    scaleInput.value = `${value}%`;
+    imageElement.style.transform = `scale(${value / 100})`;
+  }
+
+  function onFilterClick(evt) {
+    const chosenFilter = evt.target.value;
+
+    if (chosenFilter === 'none') {
+      filterContainer.classList.add('hidden');
+      imageElement.style.filter = null;
+    } else {
+      filterContainer.classList.remove('hidden');
+      const maxValue = FILTERS[chosenFilter].max, minValue = FILTERS[chosenFilter].min;
+      imageElement.style.filter = `${FILTERS[chosenFilter].name}(${maxValue})`;
+
+      const sliderSettings = {
+        range: {
+          'min': minValue,
+          'max': maxValue,
+        },
+        step: FILTERS[chosenFilter].step
+      };
+
+      sliderElement.noUiSlider.updateOptions(sliderSettings);
+      sliderElement.noUiSlider.set(maxValue);
+    }
+  }
+
+  function onSliderMove() {
+    const currentValue = sliderElement.noUiSlider.get();
+    filterValueElement.value = currentValue;
+
+    let chosenFilter;
+    for (let i = 0; i < filters.length; i++) {
+      if (filters[i].checked) {
+        chosenFilter = filters[i].value;
+      }
+    }
+
+    const specialSymbol = FILTERS[chosenFilter].symbol;
+    imageElement.style.filter = specialSymbol ? `${FILTERS[chosenFilter].name}(${currentValue}${specialSymbol})` : `${FILTERS[chosenFilter].name}(${currentValue})`;
+  }
+
   uploadInput.addEventListener('change', () => {
     if (uploadInput.files.length > 0) {
       overlayModal.classList.remove('hidden');
@@ -76,6 +176,15 @@ export const validateUploadForm = () => {
       descriptionField.addEventListener('input', onTextFieldChange);
 
       uploadInput.addEventListener('submit', onFormSubmit);
+
+      smallerButton.addEventListener('click', onSmallerButtonClick);
+      biggerButton.addEventListener('click', onBiggerButtonClick);
+
+      for (let i = 0; i < filters.length; i++) {
+        filters[i].addEventListener('click', onFilterClick);
+      }
+
+      sliderElement.noUiSlider.on('update', onSliderMove);
     }
   });
 
