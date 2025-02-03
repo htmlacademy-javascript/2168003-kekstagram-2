@@ -1,3 +1,14 @@
+// * API SETTINGS * //
+const API_POINT = 'https://31.javascript.htmlacademy.pro/kekstagram';
+const API_ROUTES = {
+  GET: '/data',
+  SEND: '/'
+};
+const API_METHODS = {
+  GET: 'GET',
+  SEND: 'POST'
+};
+
 const AMOUNT_OF_POSTS = 25;
 const DUMMY_COMMENTS = [
   'Всё отлично!',
@@ -81,6 +92,9 @@ const FILTERS = {
 
 
 export {
+  API_POINT,
+  API_ROUTES,
+  API_METHODS,
   AMOUNT_OF_POSTS,
   DUMMY_COMMENTS,
   DUMMY_NAMES,
