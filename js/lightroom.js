@@ -90,7 +90,18 @@ export const lightroom = (posts) => {
   function getPostIdByImageSource(src) {
     const regExpId = new RegExp(`/[0-9a-zA-Z]+.(${ALLOWED_EXTENSIONS.join('|')})$`, 'g');
 
-    const postId = parseInt(src.match(regExpId)[0].split('.')[0].split('/')[1], 10);
+    // const postId = parseInt(src.match(regExpId)[0].split('.')[0].split('/')[1], 10);
+    const imageUrl = src.match(regExpId)[0];
+    const foundPosts = posts.filter((post) => post.url.match(regExpId)[0] === imageUrl);
+
+    if (!foundPosts) {
+      throw new Error('No posts found for this image!');
+    }
+
+    if (foundPosts.length > 1) {
+      throw new Error('Found several posts with the same image!');
+    }
+    const postId = foundPosts[0].id;
 
     return postId;
   }

@@ -1,4 +1,6 @@
+import { sendPost } from './api.js';
 import { FILTERS, SCALE_MAX, SCALE_MIN, SCALE_STEP } from './settings.js';
+import { showToast } from './toasts.js';
 import { arrayHasDuplicates, removeExceedingSpaces } from './util.js';
 
 const uploadInput = document.querySelector('.img-upload__input');
@@ -19,7 +21,6 @@ const filterContainer = document.querySelector('.img-upload__effect-level');
 const filters = document.querySelectorAll('.effects__radio');
 const filterValueElement = document.querySelector('.effect-level__value');
 const sliderElement = document.querySelector('.effect-level__slider');
-
 
 const pristine = new Pristine(imageForm, {
   classTo: 'img-upload__field-wrapper',
@@ -43,14 +44,13 @@ export const validateUploadForm = () => {
     closeOverlayButton.removeEventListener('click', onCloseButtonClick);
     hashtagsField.removeEventListener('input', onTextFieldChange);
     descriptionField.removeEventListener('input', onTextFieldChange);
-    uploadInput.removeEventListener('submit', onFormSubmit);
+    imageForm.removeEventListener('submit', onFormSubmit);
     smallerButton.removeEventListener('click', onSmallerButtonClick);
     biggerButton.removeEventListener('click', onBiggerButtonClick);
 
     for (let i = 0; i < filters.length; i++) {
       filters[i].removeEventListener('click', onFilterClick);
     }
-    sliderElement.noUiSlider.disable();
   }
 
   function clearFields() {
@@ -78,6 +78,7 @@ export const validateUploadForm = () => {
     hideModal();
     pristine.reset();
     clearFields();
+    unblockSendButton();
     removeListeners();
   }
 
@@ -95,10 +96,38 @@ export const validateUploadForm = () => {
   }
 
   function onFormSubmit(evt) {
+    evt.preventDefault();
     const isFormValid = pristine.validate();
 
+    if (isFormValid) {
+      const formData = new FormData(evt.target);
+      blockSendButton();
+
+
+      const showErrorToast = () => {
+        showToast('error', 'error', {
+          onClose: () => {
+            document.addEventListener('keydown', onEscButtonPress);
+            unblockSendButton();
+          }
+        });
+      };
+      const showSuccessToast = () => showToast('success', 'success', {
+        onClose: () => {
+          resetUploadForm();
+          unblockSendButton();
+        }
+      });
+
+      document.removeEventListener('keydown', onEscButtonPress);
+      sendPost(formData, {
+        onSuccess: showSuccessToast,
+        onError: showErrorToast,
+      });
+    }
+
     if (!isFormValid) {
-      evt.preventDefault();
+      // console.log('do not send anything!')
     }
   }
 
@@ -175,7 +204,7 @@ export const validateUploadForm = () => {
       hashtagsField.addEventListener('input', onTextFieldChange);
       descriptionField.addEventListener('input', onTextFieldChange);
 
-      uploadInput.addEventListener('submit', onFormSubmit);
+      imageForm.addEventListener('submit', onFormSubmit);
 
       smallerButton.addEventListener('click', onSmallerButtonClick);
       biggerButton.addEventListener('click', onBiggerButtonClick);
@@ -234,14 +263,22 @@ export const validateUploadForm = () => {
     return true;
   }, 'Длина комментария не должна превышать 140 символов');
 
+  function blockSendButton() {
+    sendButton.disabled = true;
+    sendButton.classList.add('img-upload__submit--disabled');
+  }
+
+  function unblockSendButton() {
+    sendButton.disabled = false;
+    sendButton.classList.remove('img-upload__submit--disabled');
+  }
+
   function onTextFieldChange() {
     const isFormValid = pristine.validate();
     if (!isFormValid) {
-      sendButton.disabled = true;
-      sendButton.classList.add('img-upload__submit--disabled');
+      blockSendButton();
     } else {
-      sendButton.disabled = false;
-      sendButton.classList.remove('img-upload__submit--disabled');
+      unblockSendButton();
     }
   }
 
