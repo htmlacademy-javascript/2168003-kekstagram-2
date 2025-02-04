@@ -1,3 +1,5 @@
+import { MILISECONDS_IN_SECOND } from './settings.js';
+
 export function showToast(templateId, mainClass, { onClose = () => {}, closeAfter = null } = {}) {
   const toastTemplate = document.querySelector(`#${templateId}`).content.querySelector(`.${mainClass}`);
   const toast = toastTemplate.cloneNode(true);
@@ -21,7 +23,7 @@ export function showToast(templateId, mainClass, { onClose = () => {}, closeAfte
   if (closeAfter) {
     setTimeout(() => {
       closeToast();
-    }, closeAfter * 1000);
+    }, closeAfter * MILISECONDS_IN_SECOND);
     return;
   }
 

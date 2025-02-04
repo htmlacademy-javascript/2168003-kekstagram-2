@@ -1,4 +1,4 @@
-import { ALLOWED_EXTENSIONS, AMOUNT_OF_COMMENTS_PER_LOAD } from './settings.js';
+import { ALLOWED_EXTENSIONS, AMOUNT_OF_COMMENTS_PER_LOAD, AVATAR_HEIGHT, AVATAR_WIDTH } from './settings.js';
 
 export const lightroom = (posts) => {
   const bigPictureElement = document.querySelector('.big-picture');
@@ -16,8 +16,8 @@ export const lightroom = (posts) => {
 
     const image = document.createElement('img');
     image.classList.add('social__picture');
-    image.width = 35;
-    image.height = 35;
+    image.width = AVATAR_WIDTH;
+    image.height = AVATAR_HEIGHT;
 
     const text = document.createElement('p');
     text.classList.add('social__text');
@@ -90,7 +90,6 @@ export const lightroom = (posts) => {
   function getPostIdByImageSource(src) {
     const regExpId = new RegExp(`/[0-9a-zA-Z]+.(${ALLOWED_EXTENSIONS.join('|')})$`, 'g');
 
-    // const postId = parseInt(src.match(regExpId)[0].split('.')[0].split('/')[1], 10);
     const imageUrl = src.match(regExpId)[0];
     const foundPosts = posts.filter((post) => post.url.match(regExpId)[0] === imageUrl);
 

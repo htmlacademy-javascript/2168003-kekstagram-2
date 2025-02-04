@@ -1,5 +1,5 @@
 import { sendPost } from './api.js';
-import { FILTERS, SCALE_MAX, SCALE_MIN, SCALE_STEP } from './settings.js';
+import { FILTERS, MAX_COMMET_LENGTH, MAX_HASHTAGS, SCALE_MAX, SCALE_MIN, SCALE_STEP } from './settings.js';
 import { showToast } from './toasts.js';
 import { arrayHasDuplicates, removeExceedingSpaces } from './util.js';
 
@@ -232,12 +232,12 @@ export const validateUploadForm = () => {
   pristine.addValidator(hashtagsField, (value) => {
     const allWords = getArrayHashtagsFromString(value);
 
-    if (allWords.length > 5) {
+    if (allWords.length > MAX_HASHTAGS) {
       return false;
     }
 
     return true;
-  }, 'Нельзя использовать больше 5 хештегов');
+  }, `Нельзя использовать больше ${MAX_HASHTAGS} хештегов`);
 
   pristine.addValidator(hashtagsField, (value) => {
     const allWords = getArrayHashtagsFromString(value);
@@ -256,12 +256,12 @@ export const validateUploadForm = () => {
   }, 'Хештеги должны начинаться с знака #, разделяться пробелами, содержать только буквы и цифры и содержать хотя бы один символ, но не больше 20 символов (включая знак #)');
 
   pristine.addValidator(descriptionField, (value) => {
-    if (value.length > 140) {
+    if (value.length > MAX_COMMET_LENGTH) {
       return false;
     }
 
     return true;
-  }, 'Длина комментария не должна превышать 140 символов');
+  }, `Длина комментария не должна превышать ${MAX_COMMET_LENGTH} символов`);
 
   function blockSendButton() {
     sendButton.disabled = true;

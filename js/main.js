@@ -4,6 +4,7 @@ import { AMOUNT_OF_POSTS } from './settings.js';
 import { validateUploadForm } from './form-validation.js';
 import { loadPosts } from './api.js';
 import { showToast } from './toasts.js';
+import { postFilters } from './posts-filters.js';
 
 loadPosts({
   onError: () => showToast('data-error', 'data-error', { closeAfter: 5 }),
@@ -12,5 +13,6 @@ loadPosts({
     displayPosts(posts);
     lightroom(posts);
     validateUploadForm();
+    postFilters(posts);
   }
 });
