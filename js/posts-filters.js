@@ -5,7 +5,7 @@ import { debounce, shuffleArray } from './util.js';
 export function postFilters(posts) {
   const buttons = document.querySelectorAll('.img-filters__button');
 
-  const renderFilteredPosts = (filterType) => {
+  function renderFilteredPosts (filterType) {
     let postsCopy = posts.slice();
 
     switch (filterType) {
@@ -19,7 +19,8 @@ export function postFilters(posts) {
         break;
     }
     displayPosts(postsCopy);
-  };
+  }
+
   const debouncedRenderPosts = debounce(renderFilteredPosts, RERENDER_DELAY);
 
   buttons.forEach((button) => {

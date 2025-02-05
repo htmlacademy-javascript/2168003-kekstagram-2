@@ -1,6 +1,6 @@
 import { ALLOWED_EXTENSIONS, AMOUNT_OF_COMMENTS_PER_LOAD, AVATAR_HEIGHT, AVATAR_WIDTH } from './settings.js';
 
-export const lightroom = (posts) => {
+export function initiateLightroom (posts) {
   const bigPictureElement = document.querySelector('.big-picture');
   const loadMoreCommentsButton = bigPictureElement.querySelector('.social__comments-loader');
   const imageElement = bigPictureElement.querySelector('.big-picture__img img');
@@ -168,4 +168,4 @@ export const lightroom = (posts) => {
       loadMoreCommentsButton.addEventListener('click', onLoadMoreCommentsClick);
     }
   });
-};
+}

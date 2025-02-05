@@ -1,7 +1,12 @@
 import { API_METHODS, API_POINT, API_ROUTES } from './settings.js';
 
-const apiRequest = (route, errorText = 'API request error', { method = API_METHODS.GET, body = null, onError = () => { }, onSuccess = () => { } } = {}) =>
-  fetch(`${API_POINT}${route}`, { method, body })
+function sendApiRequest(route, errorText = 'API request error', {
+  method = API_METHODS.GET,
+  body = null,
+  onError = () => { },
+  onSuccess = () => { }
+} = {}) {
+  return fetch(`${API_POINT}${route}`, { method, body })
     .then((response) => {
       if (!response.ok) {
         throw new Error(errorText);
@@ -14,24 +19,27 @@ const apiRequest = (route, errorText = 'API request error', { method = API_METHO
     .catch(() => {
       onError();
     });
+}
 
-export const loadPosts = (
+export function loadPosts(
   {
     onSuccess = () => { },
     onError = () => { }
-  } = {}) =>
-  apiRequest(API_ROUTES.GET, 'Loading posts from the server failed', {
+  } = {}) {
+  return sendApiRequest(API_ROUTES.GET, 'Loading posts from the server failed', {
     onSuccess: onSuccess,
     onError: onError
   });
+}
 
-export const sendPost = (post, {
+export function sendPost(post, {
   onSuccess = () => { },
   onError = () => { }
-} = {}) =>
-  apiRequest(API_ROUTES.SEND, 'Sending a post failed', {
+} = {}) {
+  return sendApiRequest(API_ROUTES.SEND, 'Sending a post failed', {
     onError: onError,
     onSuccess: onSuccess,
     body: post,
     method: API_METHODS.SEND
   });
+}

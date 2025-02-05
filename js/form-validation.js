@@ -1,5 +1,5 @@
 import { sendPost } from './api.js';
-import { ALLOWED_EXTENSIONS, FILTERS, MAX_COMMET_LENGTH, MAX_HASHTAGS, SCALE_MAX, SCALE_MIN, SCALE_STEP } from './settings.js';
+import { ALLOWED_EXTENSIONS, FILTERS, MAX_COMMENT_LENGTH, MAX_HASHTAGS, SCALE_MAX, SCALE_MIN, SCALE_STEP } from './settings.js';
 import { showToast } from './toasts.js';
 import { arrayHasDuplicates, removeExceedingSpaces } from './util.js';
 
@@ -30,7 +30,7 @@ const pristine = new Pristine(imageForm, {
   errorTextClass: 'img-upload__field-wrapper--error',
 }, false);
 
-export const validateUploadForm = () => {
+export function validateUploadForm() {
   filterContainer.classList.add('hidden');
   noUiSlider.create(sliderElement, {
     step: 1,
@@ -62,11 +62,7 @@ export const validateUploadForm = () => {
     setScaleToValue(SCALE_MAX);
     imageElement.style.filter = null;
     for (let i = 0; i < filters.length; i++) {
-      if (filters[i].value === 'none') {
-        filters[i].checked = true;
-      } else {
-        filters[i].checked = false;
-      }
+      filters[i].checked = filters[i].value === 'none';
     }
   }
 
@@ -96,6 +92,23 @@ export const validateUploadForm = () => {
     }
   }
 
+  function showErrorToast() {
+    showToast('error', 'error', {
+      onClose: () => {
+        document.addEventListener('keydown', onEscButtonPress);
+        unblockSendButton();
+      }
+    });
+  }
+  function showSuccessToast() {
+    showToast('success', 'success', {
+      onClose: () => {
+        resetUploadForm();
+        unblockSendButton();
+      }
+    });
+  }
+
   function onFormSubmit(evt) {
     evt.preventDefault();
     const isFormValid = pristine.validate();
@@ -103,22 +116,6 @@ export const validateUploadForm = () => {
     if (isFormValid) {
       const formData = new FormData(evt.target);
       blockSendButton();
-
-
-      const showErrorToast = () => {
-        showToast('error', 'error', {
-          onClose: () => {
-            document.addEventListener('keydown', onEscButtonPress);
-            unblockSendButton();
-          }
-        });
-      };
-      const showSuccessToast = () => showToast('success', 'success', {
-        onClose: () => {
-          resetUploadForm();
-          unblockSendButton();
-        }
-      });
 
       document.removeEventListener('keydown', onEscButtonPress);
       sendPost(formData, {
@@ -234,7 +231,9 @@ export const validateUploadForm = () => {
     }
   });
 
-  const getArrayHashtagsFromString = (str) => removeExceedingSpaces(str).length > 0 ? removeExceedingSpaces(str).toLowerCase().split(' ') : [];
+  function getArrayHashtagsFromString(str) {
+    return removeExceedingSpaces(str).length > 0 ? removeExceedingSpaces(str).toLowerCase().split(' ') : [];
+  }
 
   pristine.addValidator(hashtagsField, (value) => {
     const allWords = getArrayHashtagsFromString(value);
@@ -246,15 +245,8 @@ export const validateUploadForm = () => {
     return true;
   }, 'Нельзя один и тот же хештег использовать дважды');
 
-  pristine.addValidator(hashtagsField, (value) => {
-    const allWords = getArrayHashtagsFromString(value);
-
-    if (allWords.length > MAX_HASHTAGS) {
-      return false;
-    }
-
-    return true;
-  }, `Нельзя использовать больше ${MAX_HASHTAGS} хештегов`);
+  pristine.addValidator(hashtagsField, (value) => getArrayHashtagsFromString(value).length <= MAX_HASHTAGS,
+    `Нельзя использовать больше ${MAX_HASHTAGS} хештегов`);
 
   pristine.addValidator(hashtagsField, (value) => {
     const allWords = getArrayHashtagsFromString(value);
@@ -272,13 +264,8 @@ export const validateUploadForm = () => {
     return true;
   }, 'Хештеги должны начинаться с знака #, разделяться пробелами, содержать только буквы и цифры и содержать хотя бы один символ, но не больше 20 символов (включая знак #)');
 
-  pristine.addValidator(descriptionField, (value) => {
-    if (value.length > MAX_COMMET_LENGTH) {
-      return false;
-    }
-
-    return true;
-  }, `Длина комментария не должна превышать ${MAX_COMMET_LENGTH} символов`);
+  pristine.addValidator(descriptionField, (value) => value.length <= MAX_COMMENT_LENGTH,
+    `Длина комментария не должна превышать ${MAX_COMMENT_LENGTH} символов`);
 
   function blockSendButton() {
     sendButton.disabled = true;
@@ -299,4 +286,4 @@ export const validateUploadForm = () => {
     }
   }
 
-};
+}

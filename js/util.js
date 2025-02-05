@@ -13,18 +13,18 @@ export function getRandomPositiveIntFromRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export function getRandomArrayElement(array) {
-  return array[Math.floor(Math.random() * array.length)];
+export function getRandomArrayElement(elements) {
+  return elements[Math.floor(Math.random() * elements.length)];
 }
 
-export function arrayHasDuplicates(array) {
+export function arrayHasDuplicates(elements) {
   const metElements = {};
 
-  for (let i = 0; i < array.length; i++) {
-    if (metElements[array[i]]) {
+  for (let i = 0; i < elements.length; i++) {
+    if (metElements[elements[i]]) {
       return true;
     } else {
-      metElements[array[i]] = true;
+      metElements[elements[i]] = true;
     }
   }
 
@@ -36,15 +36,14 @@ export function removeExceedingSpaces(string) {
   return string.trim().replaceAll(regex, ' ');
 }
 
-export function shuffleArray (array) {
-  const copyArray = array.slice();
+export function shuffleArray (elements) {
+  const copyArray = elements.slice();
   let amountOfRemaining = copyArray.length;
 
   while (amountOfRemaining) {
     const randomElement = Math.floor(Math.random() * amountOfRemaining);
     amountOfRemaining--;
 
-    // And swap it with the current element.
     [copyArray[amountOfRemaining], copyArray[randomElement]] = [
       copyArray[randomElement], copyArray[amountOfRemaining]];
   }
