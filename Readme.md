@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Всеволод Епинетов](https://up.htmlacademy.ru/javascript-individual/2/user/2168003).
-* Наставник: `Неизвестно`.
+* Наставник: [Анна Лисененкова](https://htmlacademy.ru/profile/ankhena).
 
 ---
 
