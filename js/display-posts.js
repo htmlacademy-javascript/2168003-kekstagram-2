@@ -20,7 +20,12 @@ export const displayPosts = (posts) => {
     });
 
     const picturesElement = document.querySelector('.pictures');
+    const oldPictures = picturesElement.querySelectorAll('.picture');
+    oldPictures.forEach((p) => p.remove());
     picturesElement.append(postsFragment);
+
+    const filters = document.querySelector('.img-filters');
+    filters.classList.remove('img-filters--inactive');
   } else {
     throw new Error('Posts were not passed to the displayPosts function');
   }

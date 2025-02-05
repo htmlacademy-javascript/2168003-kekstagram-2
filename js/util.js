@@ -1,3 +1,5 @@
+import { DEFAULT_DEBOUNCE_DELAY, MILISECONDS_IN_SECOND } from './settings.js';
+
 export function generateUniqueId() {
   let currentId = 0;
 
@@ -32,4 +34,29 @@ export function arrayHasDuplicates(array) {
 export function removeExceedingSpaces(string) {
   const regex = /\s{2,}/g;
   return string.trim().replaceAll(regex, ' ');
+}
+
+export function shuffleArray (array) {
+  const copyArray = array.slice();
+  let amountOfRemaining = copyArray.length;
+
+  while (amountOfRemaining) {
+    const randomElement = Math.floor(Math.random() * amountOfRemaining);
+    amountOfRemaining--;
+
+    // And swap it with the current element.
+    [copyArray[amountOfRemaining], copyArray[randomElement]] = [
+      copyArray[randomElement], copyArray[amountOfRemaining]];
+  }
+
+  return copyArray;
+}
+
+export function debounce (cb, interval = DEFAULT_DEBOUNCE_DELAY) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => cb(...rest), interval * MILISECONDS_IN_SECOND);
+  };
 }
