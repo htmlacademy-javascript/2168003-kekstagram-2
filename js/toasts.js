@@ -6,11 +6,11 @@ export function showToast(templateId, mainClass, { onClose = () => {}, closeAfte
   const toastButton = toast.querySelector('button');
   const bodyElement = document.querySelector('body');
 
-  const onEscButtonPress = (evt) => {
+  function onEscButtonPress (evt) {
     if (evt.key === 'Escape') {
       closeToast();
     }
-  };
+  }
 
   function closeToast() {
     toast.remove();
