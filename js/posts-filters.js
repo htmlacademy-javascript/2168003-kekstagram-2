@@ -28,13 +28,8 @@ export function postFilters(posts) {
       const currentButton = document.querySelector('.img-filters__button--active');
       currentButton.classList.remove('img-filters__button--active');
       button.classList.add('img-filters__button--active');
-      const currentFilter = currentButton.id.split('filter-')[1];
 
       const filterType = button.id.split('filter-')[1];
-
-      if (currentFilter === filterType) {
-        return;
-      }
 
       debouncedRenderPosts(filterType);
     });
